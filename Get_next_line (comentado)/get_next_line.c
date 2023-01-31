@@ -14,15 +14,52 @@
 
 char	*get_next_line(int fd)
 {
-	char	buffer[12];
+	char	*buffer;
+	char	*buffer2;
+	int		i;
 
-	printf("%ld\n", read(fd, buffer, 11));
-	ft_putstr_fd(buffer, 1);
+	i = 0;
+	if (fd == -1)
+		return (NULL);
+	buffer = malloc (sizeof (char) * BUFFER_SIZE + 1);
+	read (fd, buffer, BUFFER_SIZE);
+	while (ft_strchr(buffer, 10) == NULL)
+	{
+		buffer2 = malloc(ft_strlen(buffer) + 1);
+		strcpy(buffer2, buffer);
+		ft_free(buffer);
+		buffer = malloc(sizeof (char) * (BUFFER_SIZE + (i * BUFFER_SIZE)) + 1);
+		strcpy(buffer, buffer2);
+		read (fd, buffer, BUFFER_SIZE);
+		ft_free(buffer2);
+		i++;
+	}
 	return (NULL);
 }
 
-/*ideas:
-Realizar un while para que el read vaya leyendo de uno en uno hasta encontrar un salto de línea.
-Retornar entonces el entero y con el cargar un buff con malloc mismo para cargar la línea.
-Seguir hacia delante y repetir el proceso hasta encontrar el caracter '\0'
-*/
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//Dudas:
+//BUFFER_SIZE para la correcta compilación
+//fd = open (en el ejericio no piden ningun archivo de prueba.
+//Debe poder abrir cualquier archivo)
+//¿va en el main o está en la función?
+//close debe ir al final del todo de la función principal sino se resetea "read"
+

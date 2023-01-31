@@ -18,8 +18,6 @@ OBJT = $(SRC:.c=.o)
 
 CCFLAGS = cc -Wall -Werror -Wextra 
 
-BFLAGS = -D BUFFER_SIZE=42
-
 AR = ar rcs
 
 RM = rm -f
@@ -30,7 +28,7 @@ COLOUR = \033[0;96m
 all: $(NAME)
 
 $(NAME): $(OBJT)
-	@$(CCFLAGS)$(BFLAG)$(SRC)
+	@$(CCFLAGS)$(SRC)
 	@$(AR) $(NAME) $(OBJT)
 	@echo "$(COLOUR)get_next_line.a compiled!$(COLOUR_END)"
 

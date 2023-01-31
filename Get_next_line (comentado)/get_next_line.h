@@ -12,14 +12,23 @@
 
 #ifndef GET_NEXT_LINE_H
 # define GET_NEXT_LINE_H
+# define BUFFER_SIZE 10
 
 # include <unistd.h>
 # include <stdio.h>
 # include <stdlib.h>
+# include <string.h>
 # include <fcntl.h>
 
 char	*get_next_line(int fd);
-void	ft_putstr_fd(char *s, int fd);
 int		main(void);
+
+int		ft_strlen(const char *s);
+char	*ft_strchr(const char *buffer, int c);
+void	ft_free(char *buffer);
+char	*ft_malloc(int n);
+char	*ft_buffcpy(char *buffer_dst, char *buffer_src);
+
+
 
 #endif
