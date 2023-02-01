@@ -5,14 +5,16 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: imoro-sa <imoro-sa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/01/13 12:48:19 by imoro-sa          #+#    #+#             */
-/*   Updated: 2023/01/23 13:27:03 by imoro-sa         ###   ########.fr       */
+/*   Created: 2023/02/01 11:04:48 by imoro-sa          #+#    #+#             */
+/*   Updated: 2023/02/01 15:55:04 by imoro-sa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef GET_NEXT_LINE_H
 # define GET_NEXT_LINE_H
-# define BUFFER_SIZE 10
+# ifndef BUFFER_SIZE
+#  define BUFFER_SIZE 11
+# endif
 
 # include <unistd.h>
 # include <stdio.h>
@@ -25,10 +27,9 @@ int		main(void);
 
 int		ft_strlen(const char *s);
 char	*ft_strchr(const char *buffer, int c);
-void	ft_free(char *buffer);
 char	*ft_malloc(int n);
-char	*ft_buffcpy(char *buffer_dst, char *buffer_src);
-
-
+char	*ft_calloc(size_t nmemb, size_t size);
+char	*ft_strjoin(char const *s1, char const *s2);
+void	ft_putstr_fd(char *s, int fd);
 
 #endif

@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: imoro-sa <imoro-sa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/01/13 12:48:19 by imoro-sa          #+#    #+#             */
-/*   Updated: 2023/01/23 13:27:03 by imoro-sa         ###   ########.fr       */
+/*   Created: 2023/02/01 11:04:36 by imoro-sa          #+#    #+#             */
+/*   Updated: 2023/02/01 15:49:21 by imoro-sa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,54 +26,94 @@ int	ft_strlen(const char *s)
 
 char	*ft_strchr(const char *buffer, int c)
 {
-	int	i;
+	char	*str;
+	int		i;
 
 	i = 0;
 	while (buffer[i] != '\0')
 	{
 		if (buffer[i] == (char)c)
-			return ((char *)&buffer[i]);
+		{
+			str = ft_strjoin((char *)&buffer[i], "");
+			return (str);
+		}
 		i++;
 	}
 	if (buffer[i] == (char)c)
-		return ((char *)&buffer[i]);
-	return (NULL);
-}
-
-void	ft_free(char *buffer)
-{
-	long int	i;
-
-	i = 0;
-	while (*buffer)
 	{
-		buffer[i] = '\0';
-		i++;
+		str = ft_strjoin((char *)&buffer[i], "");
+		return (str);
 	}
-	free(buffer);
+	return (NULL);
 }
 
 char	*ft_malloc(int n)
 {	
 	char	*buffer;
+	size_t	i;
 
-	buffer = malloc(sizeof (char) * (BUFFER_SIZE + (n * BUFFER_SIZE)) + 1);
+	buffer = malloc(sizeof(char) * (BUFFER_SIZE + (n * BUFFER_SIZE)) + 1);
+	i = 0;
 	if (buffer == NULL)
 		return (NULL);
+	while (i <= (sizeof(char) * (BUFFER_SIZE + (n * BUFFER_SIZE)) + 1))
+	{
+		buffer[i] = '\0';
+		i++;
+	}
 	return (buffer);
 }
 
-char	*ft_buffcpy(char *buffer_dst, char *buffer_src)
+char	*ft_calloc(size_t nmemb, size_t size)
 {
-	long int	i;
+	size_t	i;
+	char	*str;
 
 	i = 0;
-	while (buffer_src[i] != '\0')
+	str = malloc (size * nmemb);
+	if (str == NULL)
+		return (NULL);
+	while (i < (size * nmemb))
 	{
-		buffer_dst[i] = buffer_src[i];
+		str[i] = '\0';
+		++i;
+	}
+	return (str);
+}
+
+char	*ft_strjoin(char const *s1, char const *s2)
+{
+	char	*str;
+	size_t	i;
+	size_t	j;
+
+	str = malloc(sizeof(char) * (ft_strlen(s1) + ft_strlen(s2) + 1));
+	if (str == NULL)
+		return (NULL);
+	i = 0;
+	j = 0;
+	while (s1[i] != '\0')
+	{
+		str[i] = s1[i];
 		i++;
 	}
-	return (&buffer_dst[i]);
+	while (s2[j] != '\0')
+	{
+		str[i + j] = s2[j];
+		j++;
+	}
+	str[i + j] = '\0';
+	return ((char *)str);
+}
+
+void	ft_putstr_fd(char *s, int fd)
+{
+	int	*str;
+	int	n;
+
+	str = (int *)s;
+	n = ft_strlen(s);
+	write (fd, str, n);
 }
 
 //hacerlo con tres whiles, creo que debería resolver los problemas
@@ -85,64 +125,3 @@ char	*ft_buffcpy(char *buffer_dst, char *buffer_src)
 //while strchr == 10
 
 //while strchr != 10
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-	// char	*buffer;
-	// char	*buffer2;
-	// int		count;
-
-	// count = 0;
-	// buffer = malloc (sizeof (char) * BUFFER_SIZE + 1);
-	// read (fd, buffer, BUFFER_SIZE);
-	// printf ("%s", buffer);
-
-	// while (strchr (buffer, 10) == NULL)
-	// {
-	// 	buffer2 = malloc(ft_strlen(buffer) + 1);
-	// 	strcpy(buffer2, buffer);
-	// 	ft_free(buffer);
-	// 	buffer = malloc(sizeof (char) * (BUFFER_SIZE + (count * BUFFER_SIZE)) + 1);
-	// 	strcpy(buffer, buffer2);
-	// 	read (fd, buffer, BUFFER_SIZE);
-	// 	printf ("%s", buffer);
-	// 	ft_free(buffer2);
-	// 	count ++;
-	// }
-	// while (strchr (buffer, 10) != NULL)
-	// {
-	// 	count = ft_strlen(strchr(buffer, 10));
-	// 	buffer = 
-	// }
-
-	// printf("\n");
-	// return (buffer);
-
-
