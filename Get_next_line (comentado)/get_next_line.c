@@ -14,50 +14,48 @@
 
 char	*get_next_line(int fd)
 {
-	char	*buffer;
-	char	*buffer_aux;
-	char	*buffer_join;
-	int		i;
-	int		j;
+	char		*buffer;
+	char		*buffer_join;
+	static char	*rest_of_buffer;
+	size_t		n1;
+	size_t		n2;
 
 	if (fd == -1)
 		return (NULL);
-	i = 0;
-	j = 0;
-	buffer = malloc(sizeof (char) * BUFFER_SIZE + 1);//sin proteger
+	n1 = 1;
+	n2 = 0;
+	buffer = ft_malloc(sizeof(char), BUFFER_SIZE + 1);
 	read(fd, buffer, BUFFER_SIZE);
-
-
+	if (rest_of_buffer != NULL)
+	{
+		buffer = ft_strjoin(rest_of_buffer, buffer);
+		rest_of_buffer--;
+		free(rest_of_buffer);
+	}
 	while (ft_strchr(buffer, 10) == NULL)
 	{
-		buffer_aux = ft_malloc(i);
-		read(fd, buffer_aux, BUFFER_SIZE);
-		buffer_join = ft_strjoin(buffer, buffer_aux);
-		free(buffer);
-		free(buffer_aux);
-		buffer = ft_strjoin(buffer_join, "");
-		free(buffer_join);
-		i++;
+		buffer_join = ft_malloc(sizeof(char), (BUFFER_SIZE * n1) + 1);
+		read(fd, buffer_join, BUFFER_SIZE);
+		buffer = ft_strjoin(buffer, buffer_join);
+		n1++;
 	}
-
-
-	// if (ft_strchr(buffer, 10) != NULL)
-	// {
-	// 	buffer_aux = ft_strchr(buffer, 10);
-	// 	j = ft_strlen(buffer) - ft_strlen(buffer_aux);
-	// 	//free(buffer_aux);
-	// 	i = 0;
-	// 	buffer_join = malloc(sizeof(char) * j + 1);//sin proteger
-	// 	while (i < j)
-	// 	{
-	// 		buffer_join[i] = buffer[i];
-	// 		i++;
-	// 	}
-	// 	buffer_join[i] = '\0';
-	// 	free(buffer);
-	// 	buffer = ft_strjoin(buffer_join, "");
-	// }
-	printf("%s", buffer);
+	if (ft_strchr(buffer, 10) != NULL)
+	{
+		rest_of_buffer = ft_strchr(buffer, 10);
+		rest_of_buffer++;
+		n2 = ft_strlen(buffer) - ft_strlen(rest_of_buffer);
+		buffer_join = ft_malloc(sizeof(char), n2 + 1);
+		n1 = 0;
+		while (n1 < n2)
+		{
+			buffer_join[n1] = buffer[n1];
+			n1++;
+		}
+		buffer_join[n1] = '\0';
+		free(buffer);
+		ft_putstr_fd(buffer_join, 1);
+		free(buffer_join);
+	}
 	return (NULL);
 }
 

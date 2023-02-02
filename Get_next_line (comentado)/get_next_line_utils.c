@@ -24,7 +24,7 @@ int	ft_strlen(const char *s)
 	return (i);
 }
 
-char	*ft_strchr(const char *buffer, int c)
+char	*ft_strchr(char *buffer, int c)
 {
 	char	*str;
 	int		i;
@@ -47,24 +47,7 @@ char	*ft_strchr(const char *buffer, int c)
 	return (NULL);
 }
 
-char	*ft_malloc(int n)
-{	
-	char	*buffer;
-	size_t	i;
-
-	buffer = malloc(sizeof(char) * (BUFFER_SIZE + (n * BUFFER_SIZE)) + 1);
-	i = 0;
-	if (buffer == NULL)
-		return (NULL);
-	while (i <= (sizeof(char) * (BUFFER_SIZE + (n * BUFFER_SIZE)) + 1))
-	{
-		buffer[i] = '\0';
-		i++;
-	}
-	return (buffer);
-}
-
-char	*ft_calloc(size_t nmemb, size_t size)
+char	*ft_malloc(size_t nmemb, size_t size)
 {
 	size_t	i;
 	char	*str;
@@ -81,7 +64,7 @@ char	*ft_calloc(size_t nmemb, size_t size)
 	return (str);
 }
 
-char	*ft_strjoin(char const *s1, char const *s2)
+char	*ft_strjoin(char *s1, char *s2)
 {
 	char	*str;
 	size_t	i;
@@ -104,6 +87,8 @@ char	*ft_strjoin(char const *s1, char const *s2)
 	}
 	str[i + j] = '\0';
 	return ((char *)str);
+	free(s1);
+	free(s2);
 }
 
 void	ft_putstr_fd(char *s, int fd)
