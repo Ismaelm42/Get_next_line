@@ -11,11 +11,3 @@ Sutercerálbum,WhitePony,continuóconlaexitosalíneacomercialycríticaconelterce
 -Posteriormenteallanzamientodelálbum,MaverickRecordscomercializóunsencillotitulado"BacktoSchool(MiniMaggit)",queeraunareinterpretaciónconinfluenciasrapdelapistaquecerrabaWhitePony,"PinkMaggit",yloincluyóenunareedicióndelálbum. -ElálbumhomónimoDeftonesfuelanzadoen2003yen2006labandacalifornianalanzósuquintoálbumdeestudio,SaturdayNightWrist,quealcanzóeldécimopuestodelaslistasestadounidenses.ElsextoálbumdeDeftones,DiamondEyes,fuepublicadoel4demayode2010.
 
 -Elséptimoálbumdeestudiodelabanda,KoiNoYokan,seanuncióenseptiembrede2012,peronosalióalaventahasta2013debidoalamuertedeChiCheng,quehabíapasadovariosañosencoma,teniendocomoprimersencillolacanción"Leathers".
-
-
-buffer = ft_malloc(sizeof(char), BUFFER_SIZE + 1);
-	read(fd, buffer, BUFFER_SIZE);
-	if (rest_of_buffer != NULL)
-	{
-		buffer = ft_strjoin(rest_of_buffer, buffer);
-	}
