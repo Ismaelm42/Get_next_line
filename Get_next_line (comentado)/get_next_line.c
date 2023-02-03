@@ -51,9 +51,11 @@ char	*ft_line_feed_check(int fd, char *buffer)
 
 	n = 1;
 	storage_buffer = ft_malloc(sizeof(char), (BUFFER_SIZE * n) + 1);
-	read(fd, storage_buffer, BUFFER_SIZE);
-	buffer = ft_strjoin(buffer, storage_buffer);
-	n++;
+	if (read(fd, buffer, BUFFER_SIZE) != 0)
+	{
+		buffer = ft_strjoin(buffer, storage_buffer);
+		n++;
+	}
 	return (buffer);
 }
 
@@ -74,7 +76,7 @@ char	*ft_return_line(char *buffer, char *static_buffer)
 	return_buffer[n] = '\0';
 	free(buffer);
 	ft_putstr_fd(return_buffer, 1);
-	return (return_buffer);
+	return (NULL);
 	free(return_buffer);
 }
 //free no se va a realizar aquí. Echar un vistazo a ver si se puede arreglar
