@@ -15,88 +15,68 @@
 char	*get_next_line(int fd)
 {
 	char		*buffer;
-	char		*buffer_join;
-	static char	*rest_of_buffer;
-	size_t		n1;
-	size_t		n2;
+	static char	*static_buffer;
 
 	if (fd == -1)
 		return (NULL);
-	n1 = 1;
-	n2 = 0;
 	buffer = ft_malloc(sizeof(char), BUFFER_SIZE + 1);
-	read(fd, buffer, BUFFER_SIZE);
-	if (rest_of_buffer != NULL)
+	if (read(fd, buffer, BUFFER_SIZE) != 0)
 	{
-		buffer = ft_strjoin(rest_of_buffer, buffer);
-		rest_of_buffer--;
-		free(rest_of_buffer);
-	}
-	while (ft_strchr(buffer, 10) == NULL)
-	{
-		buffer_join = ft_malloc(sizeof(char), (BUFFER_SIZE * n1) + 1);
-		read(fd, buffer_join, BUFFER_SIZE);
-		buffer = ft_strjoin(buffer, buffer_join);
-		n1++;
-	}
-	if (ft_strchr(buffer, 10) != NULL)
-	{
-		rest_of_buffer = ft_strchr(buffer, 10);
-		rest_of_buffer++;
-		n2 = ft_strlen(buffer) - ft_strlen(rest_of_buffer);
-		buffer_join = ft_malloc(sizeof(char), n2 + 1);
-		n1 = 0;
-		while (n1 < n2)
+		if (static_buffer != NULL)
+			buffer = ft_static_buffer_check(buffer, static_buffer);
+		while (ft_strchr(buffer, 10) == NULL)
+			buffer = ft_line_feed_check(fd, buffer);
+		if (ft_strchr(buffer, 10) != NULL)
 		{
-			buffer_join[n1] = buffer[n1];
-			n1++;
+			static_buffer = ft_strchr(buffer, 10);
+			static_buffer++;
+			ft_return_line(buffer, static_buffer);
 		}
-		buffer_join[n1] = '\0';
-		free(buffer);
-		ft_putstr_fd(buffer_join, 1);
-		free(buffer_join);
 	}
 	return (NULL);
 }
 
-// char	*get_next_line(int fd)
-// {
-// 	char	*buffer;
-// 	char	*buffer_aux;
-// 	char	*buffer_join;
-// 	int		i;
+char	*ft_static_buffer_check(char *buffer, char *static_buffer)
+{
+	buffer = ft_strjoin(static_buffer, buffer);
+	static_buffer--;
+	free(static_buffer);
+	return (buffer);
+}
 
-// 	if (fd == -1)
-// 		return (NULL);
-// 	i = 0;
-// 	buffer = malloc(sizeof (char) * BUFFER_SIZE + 1);
-// 	read(fd, buffer, BUFFER_SIZE);
-// 	while (ft_strchr(buffer, 10) == NULL)
-// 	{
-// 		buffer_aux = ft_malloc(i);
-// 		read(fd, buffer_aux, BUFFER_SIZE);
-// 		buffer_join = ft_strjoin(buffer, buffer_aux);
-// 		free(buffer);
-// 		free(buffer_aux);
-// 		buffer = buffer_join;
-// 	}
-// 	printf("%s", buffer);
-// 	return (NULL);
-// }
+char	*ft_line_feed_check(int fd, char *buffer)
+{
+	char	*storage_buffer;
+	int		n;
 
-//Dudas:
-//BUFFER_SIZE para la correcta compilación
-//fd = open (en el ejericio no piden ningun archivo de prueba.
-//Debe poder abrir cualquier archivo)
-//¿va en el main o está en la función?
-//close debe ir al final del todo de la función principal sino se resetea "read"
+	n = 1;
+	storage_buffer = ft_malloc(sizeof(char), (BUFFER_SIZE * n) + 1);
+	if (read(fd, storage_buffer, BUFFER_SIZE) != 0)
+	{
+		buffer = ft_strjoin(buffer, storage_buffer);
+		n++;
+	}
+	return (buffer);
+}
 
+char	*ft_return_line(char *buffer, char *static_buffer)
+{
+	size_t	n;
+	size_t	length;
+	char	*return_buffer;
 
-
-
-
-//if (ft_strchr(buffer, 10) != NULL)
-//esto se imrpime
-//debe retornar lo sobrante
-//guardar las variables con un malloc (igual ft_calloc no merece tanto la pena)
-//es posible que el salto de línea haya que saltarselo ya a cada llamada de la función.
+	length = ft_strlen(buffer) - ft_strlen(static_buffer);
+	return_buffer = ft_malloc(sizeof(char), length + 1);
+	n = 0;
+	while (n < length)
+	{
+		return_buffer[n] = buffer[n];
+		n++;
+	}
+	return_buffer[n] = '\0';
+	free(buffer);
+	ft_putstr_fd(return_buffer, 1);
+	return (NULL);
+	free(return_buffer);
+}
+//free no se va a realizar aquí. Echar un vistazo a ver si se puede arreglar

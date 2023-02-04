@@ -100,13 +100,3 @@ void	ft_putstr_fd(char *s, int fd)
 	n = ft_strlen(s);
 	write (fd, str, n);
 }
-
-//hacerlo con tres whiles, creo que debería resolver los problemas
-//necesito funciones tanto para la reserva de memoria como para liberarla
-//MUY IMPORTANTE
-
-//While read =! 0
-
-//while strchr == 10
-
-//while strchr != 10
