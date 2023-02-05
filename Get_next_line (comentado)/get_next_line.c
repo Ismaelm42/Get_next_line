@@ -15,6 +15,7 @@
 char	*get_next_line(int fd)
 {
 	char		*buffer;
+	char		*buffer2;
 	static char	*static_buffer;
 
 	if (fd == -1)
@@ -23,42 +24,38 @@ char	*get_next_line(int fd)
 	if (read(fd, buffer, BUFFER_SIZE) != 0)
 	{
 		if (static_buffer != NULL)
-			buffer = ft_static_buffer_check(buffer, static_buffer);
+		{
+			buffer = ft_strjoin(static_buffer, buffer);
+			free(static_buffer--);
+		}
 		while (ft_strchr(buffer, 10) == NULL)
 			buffer = ft_line_feed_check(fd, buffer);
 		if (ft_strchr(buffer, 10) != NULL)
 		{
 			static_buffer = ft_strchr(buffer, 10);
 			static_buffer++;
-			ft_return_line(buffer, static_buffer);
+			return (ft_return_line(buffer, static_buffer));
 		}
 	}
 	else if (read(fd, buffer, BUFFER_SIZE) == 0)
 	{
 		if (static_buffer == NULL)
 			return (NULL);
+		else if (ft_strchr(static_buffer, 10) == NULL)
+		{
+			buffer = NULL;
+			return (static_buffer);
+		}
 		else if (ft_strchr(static_buffer, 10) != NULL)
 		{
 			buffer = ft_strchr(static_buffer, 10);
 			buffer++;
-			ft_return_line(static_buffer, buffer);
+			buffer2 = ft_return_line(static_buffer, buffer);
+			static_buffer = buffer;
+			return (buffer2);
 		}
-		else if (ft_strchr(static_buffer, 10) == NULL)
-		{
-			ft_putstr_fd(static_buffer, 1);
-			buffer = NULL;
-		}
-		static_buffer = buffer;
 	}
 	return (NULL);
-}
-
-char	*ft_static_buffer_check(char *buffer, char *static_buffer)
-{
-	buffer = ft_strjoin(static_buffer, buffer);
-	static_buffer--;
-	free(static_buffer);
-	return (buffer);
 }
 
 char	*ft_line_feed_check(int fd, char *buffer)
@@ -91,26 +88,7 @@ char	*ft_return_line(char *buffer1, char *buffer2)
 		n++;
 	}
 	//free(buffer1);
-	return_buffer[n] = '\0';
-	ft_putstr_fd(return_buffer, 1);
-	return (NULL);
-	free(return_buffer);
+	//printf("print:%s", return_buffer);
+	return (return_buffer);
+	//free(return_buffer);
 }
-//free no se va a realizar aquí. Echar un vistazo a ver si se puede arreglar
-
-		// buffer = ft_strchr(static_buffer, 10);
-		// buffer ++;
-		// if (ft_strchr(buffer, 10) != NULL)
-		// 	ft_return_line(static_buffer, buffer);
-		// if (ft_strchr(buffer, 10) == NULL)
-		// {
-		// 	if (static_buffer == NULL)
-		// 		return (NULL);
-		// 	else
-		// 	{
-		// 		buffer = NULL;
-		// 		ft_putstr_fd(static_buffer, 1);
-		// 		return (NULL);
-		// 	}
-		// }
-		// static_buffer = ft_strjoin(buffer, "");

@@ -91,12 +91,3 @@ char	*ft_strjoin(char *s1, char *s2)
 	free(s2);
 }
 
-void	ft_putstr_fd(char *s, int fd)
-{
-	int	*str;
-	int	n;
-
-	str = (int *)s;
-	n = ft_strlen(s);
-	write (fd, str, n);
-}
