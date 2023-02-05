@@ -33,6 +33,23 @@ char	*get_next_line(int fd)
 			ft_return_line(buffer, static_buffer);
 		}
 	}
+	else if (read(fd, buffer, BUFFER_SIZE) == 0)
+	{
+		if (static_buffer == NULL)
+			return (NULL);
+		else if (ft_strchr(static_buffer, 10) != NULL)
+		{
+			buffer = ft_strchr(static_buffer, 10);
+			buffer++;
+			ft_return_line(static_buffer, buffer);
+		}
+		else if (ft_strchr(static_buffer, 10) == NULL)
+		{
+			ft_putstr_fd(static_buffer, 1);
+			buffer = NULL;
+		}
+		static_buffer = buffer;
+	}
 	return (NULL);
 }
 
@@ -59,24 +76,41 @@ char	*ft_line_feed_check(int fd, char *buffer)
 	return (buffer);
 }
 
-char	*ft_return_line(char *buffer, char *static_buffer)
+char	*ft_return_line(char *buffer1, char *buffer2)
 {
 	size_t	n;
 	size_t	length;
 	char	*return_buffer;
 
-	length = ft_strlen(buffer) - ft_strlen(static_buffer);
+	length = ft_strlen(buffer1) - ft_strlen(buffer2);
 	return_buffer = ft_malloc(sizeof(char), length + 1);
 	n = 0;
 	while (n < length)
 	{
-		return_buffer[n] = buffer[n];
+		return_buffer[n] = buffer1[n];
 		n++;
 	}
+	//free(buffer1);
 	return_buffer[n] = '\0';
-	free(buffer);
 	ft_putstr_fd(return_buffer, 1);
 	return (NULL);
 	free(return_buffer);
 }
 //free no se va a realizar aquí. Echar un vistazo a ver si se puede arreglar
+
+		// buffer = ft_strchr(static_buffer, 10);
+		// buffer ++;
+		// if (ft_strchr(buffer, 10) != NULL)
+		// 	ft_return_line(static_buffer, buffer);
+		// if (ft_strchr(buffer, 10) == NULL)
+		// {
+		// 	if (static_buffer == NULL)
+		// 		return (NULL);
+		// 	else
+		// 	{
+		// 		buffer = NULL;
+		// 		ft_putstr_fd(static_buffer, 1);
+		// 		return (NULL);
+		// 	}
+		// }
+		// static_buffer = ft_strjoin(buffer, "");
