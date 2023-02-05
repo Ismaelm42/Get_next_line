@@ -23,10 +23,10 @@
 # include <fcntl.h>
 
 char	*get_next_line(int fd);
+
+
 char	*ft_return_line(char *buffer, char *static_buffer);
 char	*ft_line_feed_check(int fd, char *buffer);
-char	*ft_static_buffer_check(char *buffer, char *static_buffer);
-char	*ft_prueba(char *buffer, char *static_buffer);
 
 
 //int		main(void);
