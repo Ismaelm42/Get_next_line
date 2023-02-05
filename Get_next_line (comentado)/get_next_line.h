@@ -13,7 +13,7 @@
 #ifndef GET_NEXT_LINE_H
 # define GET_NEXT_LINE_H
 # ifndef BUFFER_SIZE
-#  define BUFFER_SIZE 100000000
+#  define BUFFER_SIZE 1000
 # endif
 
 # include <unistd.h>
@@ -23,7 +23,6 @@
 # include <fcntl.h>
 
 char	*get_next_line(int fd);
-
 
 char	*ft_return_line(char *buffer, char *static_buffer);
 char	*ft_line_feed_check(int fd, char *buffer);

@@ -24,29 +24,6 @@ int	ft_strlen(const char *s)
 	return (i);
 }
 
-char	*ft_strchr(char *buffer, int c)
-{
-	char	*str;
-	int		i;
-
-	i = 0;
-	while (buffer[i] != '\0')
-	{
-		if (buffer[i] == (char)c)
-		{
-			str = ft_strjoin((char *)&buffer[i], "");
-			return (str);
-		}
-		i++;
-	}
-	if (buffer[i] == (char)c)
-	{
-		str = ft_strjoin((char *)&buffer[i], "");
-		return (str);
-	}
-	return (NULL);
-}
-
 char	*ft_malloc(size_t nmemb, size_t size)
 {
 	size_t	i;
@@ -70,9 +47,7 @@ char	*ft_strjoin(char *s1, char *s2)
 	size_t	i;
 	size_t	j;
 
-	str = malloc(sizeof(char) * (ft_strlen(s1) + ft_strlen(s2) + 1));
-	if (str == NULL)
-		return (NULL);
+	str = ft_malloc(sizeof(char), (ft_strlen(s1) + ft_strlen(s2) + 1));
 	i = 0;
 	j = 0;
 	while (s1[i] != '\0')
@@ -85,7 +60,28 @@ char	*ft_strjoin(char *s1, char *s2)
 		str[i + j] = s2[j];
 		j++;
 	}
-	str[i + j] = '\0';
-	return ((char *)str);
+	return (str);
 }
 
+char	*ft_strchr(char *buffer, int c)
+{
+	char	*str;
+	int		i;
+
+	i = 0;
+	while (buffer[i] != '\0')
+	{
+		if (buffer[i] == (char)c)
+		{
+			str = ft_strjoin((char *)&buffer[i + 1], "");
+			return (str);
+		}
+		i++;
+	}
+	if (buffer[i] == (char)c)
+	{
+		str = ft_strjoin((char *)&buffer[i + 1], "");
+		return (str);
+	}
+	return (NULL);
+}

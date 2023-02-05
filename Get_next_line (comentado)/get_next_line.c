@@ -30,7 +30,6 @@ char	*get_next_line(int fd)
 		if (ft_strchr(buffer, 10) != NULL)
 		{
 			static_buffer = ft_strchr(buffer, 10);
-			static_buffer++;
 			return (ft_return_line(buffer, static_buffer));
 		}
 	}
@@ -40,7 +39,6 @@ char	*get_next_line(int fd)
 		{
 			free (buffer);
 			buffer = ft_strchr(static_buffer, 10);
-			buffer++;
 			ptr = ft_return_line(static_buffer, buffer);
 			static_buffer = buffer;
 			return (ptr);
@@ -61,6 +59,7 @@ char	*ft_line_feed_check(int fd, char *buffer)
 		buffer = ft_strjoin(buffer, storage_buffer);
 		n++;
 	}
+	free(storage_buffer);
 	return (buffer);
 }
 
