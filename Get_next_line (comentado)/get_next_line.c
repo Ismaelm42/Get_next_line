@@ -35,9 +35,17 @@ char	*get_next_line(int fd)
 	}
 	else if (read(fd, buffer, BUFFER_SIZE) == 0)
 	{
-		if (ft_strchr(static_buffer, 10) != NULL)
+		if (static_buffer == NULL)
+			return (NULL);
+		else if (ft_strchr(static_buffer, 10) == NULL)
 		{
-			free (buffer);
+			ptr = ft_strjoin(static_buffer, "");
+			static_buffer = NULL;
+			buffer = NULL;
+			return (ptr);
+		}
+		else if (ft_strchr(static_buffer, 10) != NULL)
+		{
 			buffer = ft_strchr(static_buffer, 10);
 			ptr = ft_return_line(static_buffer, buffer);
 			static_buffer = buffer;
