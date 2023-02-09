@@ -15,22 +15,15 @@
 int	main(void)
 {
 	int	fd;
+	int	i;
 
 	fd = open ("TXT.md", O_RDONLY);
-	printf("%s", get_next_line(fd));
-	printf("%s", get_next_line(fd));
-	printf("%s", get_next_line(fd));
-	printf("%s", get_next_line(fd));
-	printf("%s", get_next_line(fd));
-	printf("%s", get_next_line(fd));
-	printf("%s", get_next_line(fd));
-	printf("%s", get_next_line(fd));
-	printf("%s", get_next_line(fd));
-	printf("%s", get_next_line(fd));
-	printf("%s", get_next_line(fd));
-	printf("%s", get_next_line(fd));
-	printf("%s", get_next_line(fd));
-	printf("%s", get_next_line(fd));
-	printf("%s", get_next_line(fd));
+	i = 1;
+	while (i <= 14)
+	{
+		printf("RETURN:%s", get_next_line(fd));
+		//get_next_line(fd);
+		i++;
+	}
 	return (0);
 }
