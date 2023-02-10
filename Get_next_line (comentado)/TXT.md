@@ -1,14 +1,1 @@
--Deftones es una banda estadounidense de metal alternativo formada en Sacramento, California, en el año 1988.
--Son considerados los pioneros del género nu metal junto con Korn.
--Sus integrantes son Chino Moreno (vocalista), Stephen Carpenter (guitarrista), Abe Cunningham (baterista), y Frank Delgado (samplers).
--El bajista original de la banda era Chi Cheng, quien quedó en coma después de un accidente en 2008 y murió en 2013.
--Desde su formación, la banda ha lanzado nueve álbumes de estudio, dos EP, un álbum recopilatorio y veintitrés sencillos.
--La banda cuenta con un disco de oro y tres discos de platino.
--La banda lanzó su primer álbum de estudio, Adrenaline, en 1995 mediante Maverick Records, y debutó en el puesto 23 de la lista del Billboard Top Heatseekers.
--Around the Fur, su segundo álbum de estudio, también entró en las listas estadounidenses y británicas, por primera vez.
--En el álbum se incluyó el sencillo "My Own Summer (Shove It)", que apareció también en la banda sonora original de The Matrix en 1999.
--Su tercer álbum, White Pony, continuó con la exitosa línea comercial y crítica con el tercer puesto en las listas estadounidenses.
--Posteriormente al lanzamiento del álbum, Maverick Records comercializó un sencillo titulado "Back to School (Mini Maggit)".
--El álbum homónimo Deftones fue lanzado en 2003 y en 2006 la banda californiana lanzó su quinto álbum de estudio, Saturday Night Wrist.
--El sexto álbum de Deftones, Diamond Eyes, fue publicado el 4 de mayo de 2010.
--El séptimo álbum de estudio de la banda, Koi No Yokan, se anunció en septiembre de 2012, pero no salió a la venta hasta 2013 debido a la muerte de Chi Cheng.
+u

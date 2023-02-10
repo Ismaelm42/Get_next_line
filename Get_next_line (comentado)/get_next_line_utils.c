@@ -6,13 +6,13 @@
 /*   By: imoro-sa <imoro-sa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/01 11:04:36 by imoro-sa          #+#    #+#             */
-/*   Updated: 2023/02/01 15:49:21 by imoro-sa         ###   ########.fr       */
+/*   Updated: 2023/02/10 12:04:25 by imoro-sa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-int	ft_strlen(const char *s)
+int	ft_strlen(char *s)
 {
 	int	i;
 
@@ -24,16 +24,16 @@ int	ft_strlen(const char *s)
 	return (i);
 }
 
-char	*ft_malloc(size_t nmemb, size_t size)
+char	*ft_malloc(size_t nmemb)
 {
 	size_t	i;
 	char	*str;
 
 	i = 0;
-	str = malloc (size * nmemb);
+	str = malloc (sizeof(char) * nmemb);
 	if (str == NULL)
 		return (NULL);
-	while (i < (size * nmemb))
+	while (i < (sizeof(char) * nmemb))
 	{
 		str[i] = '\0';
 		++i;
@@ -47,7 +47,9 @@ char	*ft_strjoin(char *s1, char *s2)
 	size_t	i;
 	size_t	j;
 
-	str = ft_malloc(sizeof(char), (ft_strlen(s1) + ft_strlen(s2) + 1));
+	str = malloc(sizeof (char) * (ft_strlen(s1) + ft_strlen(s2) + 1));
+	if (str == NULL)
+		return (NULL);
 	i = 0;
 	j = 0;
 	while (s1[i] != '\0')
@@ -60,28 +62,22 @@ char	*ft_strjoin(char *s1, char *s2)
 		str[i + j] = s2[j];
 		j++;
 	}
-	return (str);
+	str[i + j] = '\0';
+	return ((char *)str);
 }
 
-char	*ft_strchr(char *buffer, int c)
+int	ft_strchr(char *s, int c)
 {
-	char	*str;
-	int		i;
+	int	i;
 
 	i = 0;
-	while (buffer[i] != '\0')
+	while (s[i] != '\0')
 	{
-		if (buffer[i] == (char)c)
-		{
-			str = ft_strjoin((char *)&buffer[i + 1], "");
-			return (str);
-		}
+		if (s[i] == (char)c)
+			return (i + 1);
 		i++;
 	}
-	if (buffer[i] == (char)c)
-	{
-		str = ft_strjoin((char *)&buffer[i + 1], "");
-		return (str);
-	}
-	return (NULL);
+	if (s[i] == (char)c)
+		return (i + 1);
+	return (0);
 }
