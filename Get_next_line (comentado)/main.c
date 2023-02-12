@@ -15,19 +15,14 @@
 int	main(void)
 {
 	int	fd;
+	int	i;
 
-	fd = open ("TXT.md", O_RDONLY);
-	get_next_line(fd);
-	get_next_line(fd);
-	get_next_line(fd);
-	get_next_line(fd);
+	fd = open ("TXT2.md", O_RDONLY);
+	i = 1;
+	while (i <= 2)
+	{
+		printf("%s", get_next_line(fd));
+		i++;
+	}
 	return (0);
 }
-
-// int	main(void)
-// {
-// 	char	buffer[]= "Holacaracola\nIsmael";
-
-// 	printf("%s", ft_strchr(buffer, 10));
-// 	return (0);
-// }
