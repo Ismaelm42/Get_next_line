@@ -6,7 +6,7 @@
 /*   By: imoro-sa <imoro-sa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/01 11:04:48 by imoro-sa          #+#    #+#             */
-/*   Updated: 2023/02/01 15:55:04 by imoro-sa         ###   ########.fr       */
+/*   Updated: 2023/02/13 15:40:14 by imoro-sa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,11 +27,10 @@ char		*ft_chop_static_buffer(char *buffer);
 char		*ft_return_line(char *buffer);
 char		*ft_return_no_feed_line(char *buffer);
 
-int			main(void);
-
 int			ft_strlen(char *s);
+int			ft_strchr(char *s, int c);
 char		*ft_malloc(size_t nmemb);
 char		*ft_strjoin(char *s1, char *s2);
-int			ft_strchr(char *s, int c);
+char		*ft_memcpy(char *src);
 
 #endif

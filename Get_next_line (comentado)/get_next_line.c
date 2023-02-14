@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: imoro-sa <imoro-sa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/02/01 11:04:36 by imoro-sa          #+#    #+#             */
-/*   Updated: 2023/02/01 15:49:21 by imoro-sa         ###   ########.fr       */
+/*   Created: 2023/02/01 11:04:44 by imoro-sa          #+#    #+#             */
+/*   Updated: 2023/02/14 11:20:53 by imoro-sa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,18 +19,23 @@ char	*get_next_line(int fd)
 	long int	bytes_read;
 
 	bytes_read = 1;
-	if (fd == -1)
-		return (NULL);
 	while (bytes_read > 0)
 	{
 		buffer = ft_malloc(BUFFER_SIZE + 1);
 		bytes_read = read(fd, buffer, BUFFER_SIZE);
+		if (bytes_read == -1)
+		{
+			free(buffer);
+			if (static_buffer)
+				free(static_buffer);
+			return (NULL);
+		}
 		if (static_buffer != NULL)
 			buffer = ft_strjoin(static_buffer, buffer);
 		if (ft_strchr(buffer, 10) != 0)
 		{
 			static_buffer = ft_chop_static_buffer(buffer);
-			return (ft_return_line(buffer));
+			return (buffer = ft_return_line(buffer));
 		}
 		if (bytes_read == 0)
 		{
@@ -38,7 +43,7 @@ char	*get_next_line(int fd)
 			return (ft_return_no_feed_line(buffer));
 		}
 		if (ft_strchr(buffer, 10) == 0)
-			static_buffer = ft_strjoin(buffer, "");
+			static_buffer = ft_memcpy(buffer);
 	}
 	return (NULL);
 }
@@ -90,7 +95,8 @@ char	*ft_return_no_feed_line(char *buffer)
 	i = 0;
 	if (n == 0)
 	{
-		free (return_buffer);
+		free(buffer);
+		free(return_buffer);
 		return (NULL);
 	}
 	while (i < n)

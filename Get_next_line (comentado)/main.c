@@ -6,7 +6,7 @@
 /*   By: imoro-sa <imoro-sa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/01 11:06:28 by imoro-sa          #+#    #+#             */
-/*   Updated: 2023/02/01 15:56:26 by imoro-sa         ###   ########.fr       */
+/*   Updated: 2023/02/13 11:39:21 by imoro-sa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,9 +17,9 @@ int	main(void)
 	int	fd;
 	int	i;
 
-	fd = open ("TXT2.md", O_RDONLY);
+	fd = open ("TXT.md", O_RDONLY);
 	i = 1;
-	while (i <= 2)
+	while (i <= 5)
 	{
 		printf("%s", get_next_line(fd));
 		i++;
