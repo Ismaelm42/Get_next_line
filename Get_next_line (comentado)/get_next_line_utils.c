@@ -47,7 +47,7 @@ char	*ft_strjoin(char *s1, char *s2)
 	size_t	i;
 	size_t	j;
 
-	str = malloc(sizeof (char) * (ft_strlen(s1) + ft_strlen(s2) + 1));
+	str = ft_malloc(ft_strlen(s1) + ft_strlen(s2) + 1);
 	if (str == NULL)
 		return (NULL);
 	i = 0;
@@ -64,7 +64,7 @@ char	*ft_strjoin(char *s1, char *s2)
 	}
 	str[i + j] = '\0';
 	free(s1);
-	s1 = NULL;
+	free(s2);
 	return ((char *)str);
 }
 
@@ -82,4 +82,24 @@ int	ft_strchr(char *s, int c)
 	if (s[i] == (char)c)
 		return (i + 1);
 	return (0);
+}
+
+char	*ft_memcpy(char *src)
+{
+	char		*return_buffer;
+	long int	i;
+	long int	n;
+
+	i = 0;
+	n = ft_strlen(src);
+	return_buffer = ft_malloc(n + 1);
+	if (src == 0)
+		return (NULL);
+	while (i < n)
+	{
+		return_buffer[i] = src[i];
+		i++;
+	}
+	free(src);
+	return (return_buffer);
 }

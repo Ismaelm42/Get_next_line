@@ -17,9 +17,9 @@ int	main(void)
 	int	fd;
 	int	i;
 
-	fd = open ("TXT2.md", O_RDONLY);
+	fd = open ("TXT.md", O_RDONLY);
 	i = 1;
-	while (i <= 2)
+	while (i <= 20)
 	{
 		printf("%s", get_next_line(fd));
 		i++;
