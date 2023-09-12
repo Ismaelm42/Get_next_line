@@ -12,36 +12,17 @@
 
 #include "get_next_line.h"
 
-size_t	ft_strlen(const char *s)
+int	ft_strlen(char *s)
 {
 	int	i;
 
 	i = 0;
 	while (s[i] != '\0')
-	{
 		i++;
-	}
 	return (i);
 }
 
-char	*ft_malloc(size_t nmemb)
-{
-	size_t	i;
-	char	*str;
-
-	i = 0;
-	str = malloc (sizeof(char) * nmemb);
-	if (str == NULL)
-		return (NULL);
-	while (i < (sizeof(char) * nmemb))
-	{
-		str[i] = '\0';
-		++i;
-	}
-	return (str);
-}
-
-char	*ft_strchr(const char *s, int c)
+char	*ft_strchr(char *s, int c)
 {
 	int	i;
 
@@ -52,27 +33,40 @@ char	*ft_strchr(const char *s, int c)
 	{
 		if (s[i] == (char)c)
 			return ((char *)&s[i]);
-	i++;
+		i++;
 	}
 	if (s[i] == (char)c)
 		return ((char *)&s[i]);
 	return (NULL);
 }
 
-char	*ft_strjoin(char *s1, char *s2, long int bytes_read)
+char	*ft_strdup(char *s)
+{
+	char	*str;
+	int		i;
+
+	i = 0;
+	str = ft_calloc(ft_strlen(s) + 1, sizeof (char));
+	if (str == NULL)
+		return (NULL);
+	while (s[i] != '\0')
+	{
+		str[i] = s[i];
+		i++;
+	}
+	str[i] = '\0';
+	return (str);
+}
+
+char	*ft_strjoin(char *s1, char *s2, int flag)
 {
 	char	*str;
 	size_t	i;
 	size_t	j;
 
-	if (bytes_read == 0)
-		return (free(s2), s1);
-	if (!s1)
-	{
-		str = ft_memcpy(s2);
-		return (free(s2), str);
-	}
-	str = ft_malloc(ft_strlen(s1) + ft_strlen(s2) + 1);
+	str = ft_calloc(ft_strlen(s1) + ft_strlen(s2) + 1, sizeof(char));
+	if (str == NULL)
+		return (NULL);
 	i = 0;
 	j = 0;
 	while (s1[i] != '\0')
@@ -85,32 +79,37 @@ char	*ft_strjoin(char *s1, char *s2, long int bytes_read)
 		str[i + j] = s2[j];
 		j++;
 	}
-	return (free(s1), free(s2), str);
+	str[i + j] = '\0';
+	if (flag == 1 || flag == 3)
+		free(s1);
+	if (flag == 2 || flag == 3)
+		free(s2);
+	return ((char *)str);
 }
 
-char	*ft_substr(char *s, unsigned int start, size_t len)
+char	*ft_substr(char *s, unsigned int start, size_t len, int flag)
 {
-	size_t		i;
-	size_t		j;
-	size_t		str_start;
-	char		*str;
+	char	*str;
+	size_t	i;
 
-	str_start = (size_t)start;
-	i = (size_t)str_start;
-	j = 0;
-	if (len > (size_t)ft_strlen(s) - str_start)
-		len = (size_t)ft_strlen(s) - str_start;
+	i = 0;
 	if (!s)
 		return (NULL);
-	str = malloc(sizeof (char) * (len + 1));
-	if (str == NULL)
+	if ((size_t)ft_strlen(s) < (size_t)start)
+		return (ft_strdup(""));
+	if (len > (ft_strlen(s) - (size_t)start))
+		len = ft_strlen(s) - (size_t)start;
+	str = (char *) malloc (sizeof (char) * len + 1);
+	if (!str)
 		return (NULL);
-	while (s[i] != '\0' && i < (len + str_start))
+	while (i < len)
 	{
-		str[j] = s[i];
+		str[i] = s[start];
 		i++;
-		j++;
+		start++;
 	}
-	str[j] = '\0';
+	str[i] = 0;
+	if (flag == 1)
+		free (s);
 	return (str);
 }

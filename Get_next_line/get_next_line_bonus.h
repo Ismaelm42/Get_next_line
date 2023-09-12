@@ -13,7 +13,7 @@
 #ifndef GET_NEXT_LINE_BONUS_H
 # define GET_NEXT_LINE_BONUS_H
 # ifndef BUFFER_SIZE
-#  define BUFFER_SIZE 1000000
+#  define BUFFER_SIZE 50
 # endif
 
 # include <unistd.h>
@@ -22,16 +22,18 @@
 # include <string.h>
 # include <fcntl.h>
 
-char		*get_next_line(int fd);
-char		*ft_read(int fd, char *static_buffer);
-char		*ft_return_line(char *static_buffer);
-char		*ft_return_static_buffer(char *static_buffer);
+//get_next_line
+char	*get_next_line(int fd);
+char	*read_fd(int fd, char *static_buffer);
+char	*return_line(char *static_buffer);
+char	*return_static(char *static_buffer);
+void	*ft_calloc(size_t nmemb, size_t size);
 
-size_t		ft_strlen(const char *s);
-char		*ft_malloc(size_t nmemb);
-char		*ft_strchr(const char *s, int c);
-char		*ft_strjoin(char *s1, char *s2, long int bytes_read);
-char		*ft_substr(char *s, unsigned int start, size_t len);
-char		*ft_memcpy(char *src);
+//get_next_line_utils
+int		ft_strlen(char *s);
+char	*ft_strchr(char *s, int c);
+char	*ft_strdup(char *s);
+char	*ft_strjoin(char *s1, char *s2, int flag);
+char	*ft_substr(char *s, unsigned int start, size_t len, int flag);
 
 #endif

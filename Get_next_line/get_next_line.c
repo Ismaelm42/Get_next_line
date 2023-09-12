@@ -17,17 +17,17 @@ char	*get_next_line(int fd)
 	static char		*static_buffer;
 	char			*buffer;
 
-	if (fd == -1 || BUFFER_SIZE <= 0)
+	if (fd == -1)
 		return (NULL);
-	static_buffer = ft_read(fd, static_buffer);
+	static_buffer = read_fd(fd, static_buffer);
 	if (static_buffer == NULL || !static_buffer)
 		return (NULL);
-	buffer = ft_return_line(static_buffer);
-	static_buffer = ft_return_static_buffer(static_buffer);
+	buffer = return_line(static_buffer);
+	static_buffer = return_static(static_buffer);
 	return (buffer);
 }
 
-char	*ft_read(int fd, char *static_buffer)
+char	*read_fd(int fd, char *static_buffer)
 {
 	char		*buffer;
 	long int	bytes_read;
@@ -37,16 +37,22 @@ char	*ft_read(int fd, char *static_buffer)
 	bytes_read = 1;
 	while (bytes_read > 0 && !(ft_strchr(static_buffer, 10)))
 	{
-		buffer = ft_malloc(BUFFER_SIZE + 1);
+		buffer = ft_calloc(BUFFER_SIZE + 1, sizeof(char));
 		bytes_read = read(fd, buffer, BUFFER_SIZE);
 		if (bytes_read == -1)
 			return (free(buffer), free(static_buffer), NULL);
-		static_buffer = ft_strjoin(static_buffer, buffer, bytes_read);
+		else if (bytes_read == 0)
+			return (free(buffer), static_buffer);
+		else if (!static_buffer)
+			static_buffer = ft_strdup(buffer);
+		else
+			static_buffer = ft_strjoin(static_buffer, buffer, 1);
+		free(buffer);
 	}
 	return (static_buffer);
 }
 
-char	*ft_return_line(char *static_buffer)
+char	*return_line(char *static_buffer)
 {
 	char	*buffer;
 	int		length;
@@ -57,13 +63,13 @@ char	*ft_return_line(char *static_buffer)
 		while (static_buffer[length] != 10)
 			length++;
 		length++;
-		buffer = ft_substr(static_buffer, 0, length);
+		buffer = ft_substr(static_buffer, 0, length, 0);
 		return (buffer);
 	}
 	return (static_buffer);
 }
 
-char	*ft_return_static_buffer(char *static_buffer)
+char	*return_static(char *static_buffer)
 {
 	char	*buffer;
 	int		n;
@@ -80,27 +86,22 @@ char	*ft_return_static_buffer(char *static_buffer)
 			length++;
 		if (length == 0)
 			return (free (static_buffer), NULL);
-		buffer = ft_substr(static_buffer, n, length);
+		buffer = ft_substr(static_buffer, n, length, 0);
 		return (free (static_buffer), buffer);
 	}
 	return (NULL);
 }
 
-char	*ft_memcpy(char *src)
+void	*ft_calloc(size_t nmemb, size_t size)
 {
-	char		*return_buffer;
-	long int	i;
-	long int	n;
+	char	*str;
+	size_t	i;
 
-	i = 0;
-	n = ft_strlen(src);
-	return_buffer = ft_malloc(n + 1);
-	if (src == 0)
+	str = (char *) malloc(size * nmemb);
+	if (str == NULL)
 		return (NULL);
-	while (i < n)
-	{
-		return_buffer[i] = src[i];
-		i++;
-	}
-	return (return_buffer);
+	i = 0;
+	while (i < (size * nmemb))
+		str[i++] = '\0';
+	return (str);
 }
