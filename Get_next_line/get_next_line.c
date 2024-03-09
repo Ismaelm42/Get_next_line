@@ -1,107 +1,99 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   get_next_line.c                                    :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: imoro-sa <imoro-sa@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/02/01 11:04:44 by imoro-sa          #+#    #+#             */
-/*   Updated: 2023/02/21 10:59:43 by imoro-sa         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include "get_next_line.h"
 
 char	*get_next_line(int fd)
 {
-	static char		*static_buffer;
-	char			*buffer;
+	static char		*static_buff[1024];
+	char			*buff;
 
 	if (fd == -1)
 		return (NULL);
-	static_buffer = read_fd(fd, static_buffer);
-	if (static_buffer == NULL || !static_buffer)
+	static_buff[fd] = read_fd_loop(fd, static_buff[fd]);
+	if (static_buff[fd] == NULL || !static_buff[fd])
 		return (NULL);
-	buffer = return_line(static_buffer);
-	static_buffer = return_static(static_buffer);
-	return (buffer);
+	buff = get_line(static_buff[fd]);
+	static_buff[fd] = get_static(static_buff[fd]);
+	return (buff);
 }
 
-char	*read_fd(int fd, char *static_buffer)
+char	*get_buffer(long int *bytes_read, int fd)
 {
-	char		*buffer;
+	char	*buff;
+	int		i;
+
+	i = 0;
+	buff = (char *)malloc(sizeof(char) * (BUFFER_SIZE + 1));
+	while (i <= BUFFER_SIZE)
+		buff[i++] = '\0';
+	*bytes_read = read(fd, buff, BUFFER_SIZE);
+	return (buff);
+}
+
+char	*read_fd_loop(int fd, char *static_buff)
+{
+	char		*buff;
+	char		*ptr;
 	long int	bytes_read;
 
-	if (static_buffer && ft_strchr(static_buffer, 10))
-		return (static_buffer);
+	if (static_buff && ft_strchr(static_buff, '\n'))
+		return (static_buff);
 	bytes_read = 1;
-	while (bytes_read > 0 && !(ft_strchr(static_buffer, 10)))
+	while (bytes_read > 0 && (!static_buff || !(ft_strchr(static_buff, '\n'))))
 	{
-		buffer = ft_calloc(BUFFER_SIZE + 1, sizeof(char));
-		bytes_read = read(fd, buffer, BUFFER_SIZE);
+		buff = get_buffer(&bytes_read, fd);
 		if (bytes_read == -1)
-			return (free(buffer), free(static_buffer), NULL);
+			return (free(buff), free(static_buff), NULL);
 		else if (bytes_read == 0)
-			return (free(buffer), static_buffer);
-		else if (!static_buffer)
-			static_buffer = ft_strdup(buffer);
+			return (free(buff), static_buff);
+		else if (!static_buff)
+			static_buff = ft_strdup(buff);
 		else
-			static_buffer = ft_strjoin(static_buffer, buffer, 1);
-		free(buffer);
+		{
+			ptr = static_buff;
+			static_buff = ft_strjoin(static_buff, buff);
+			free(ptr);
+		}
+		free(buff);
 	}
-	return (static_buffer);
+	return (static_buff);
 }
 
-char	*return_line(char *static_buffer)
+char	*get_line(char *static_buff)
 {
-	char	*buffer;
+	char	*buff;
 	int		length;
 
-	if (static_buffer && ft_strchr(static_buffer, 10))
+	if (static_buff && ft_strchr(static_buff, 10))
 	{
 		length = 0;
-		while (static_buffer[length] != 10)
+		while (static_buff[length] != 10)
 			length++;
 		length++;
-		buffer = ft_substr(static_buffer, 0, length, 0);
-		return (buffer);
+		buff = ft_substr(static_buff, 0, length);
+		return (buff);
 	}
-	return (static_buffer);
+	return (static_buff);
 }
 
-char	*return_static(char *static_buffer)
+char	*get_static(char *static_buff)
 {
-	char	*buffer;
+	char	*buff;
 	int		n;
 	int		length;
 
-	if (static_buffer && ft_strchr(static_buffer, 10))
+	if (static_buff && ft_strchr(static_buff, 10))
 	{
 		n = 0;
-		while (static_buffer[n] != 10)
+		while (static_buff[n] != 10)
 			n++;
 		n++;
 		length = 0;
-		while (static_buffer[n + length] != '\0')
+		while (static_buff[n + length] != '\0')
 			length++;
 		if (length == 0)
-			return (free (static_buffer), NULL);
-		buffer = ft_substr(static_buffer, n, length, 0);
-		return (free (static_buffer), buffer);
+			return (free(static_buff), NULL);
+		buff = ft_substr(static_buff, n, length);
+		free(static_buff);
+		return (buff);
 	}
 	return (NULL);
-}
-
-void	*ft_calloc(size_t nmemb, size_t size)
-{
-	char	*str;
-	size_t	i;
-
-	str = (char *) malloc(size * nmemb);
-	if (str == NULL)
-		return (NULL);
-	i = 0;
-	while (i < (size * nmemb))
-		str[i++] = '\0';
-	return (str);
 }

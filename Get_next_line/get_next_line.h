@@ -1,15 +1,3 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   get_next_line.h                                    :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: imoro-sa <imoro-sa@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/02/01 11:04:48 by imoro-sa          #+#    #+#             */
-/*   Updated: 2023/02/19 15:47:42 by imoro-sa         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #ifndef GET_NEXT_LINE_H
 # define GET_NEXT_LINE_H
 # ifndef BUFFER_SIZE
@@ -17,23 +5,20 @@
 # endif
 
 # include <unistd.h>
-# include <stdio.h>
 # include <stdlib.h>
 # include <string.h>
 # include <fcntl.h>
 
-//get_next_line
-char	*get_next_line(int fd);
-char	*read_fd(int fd, char *static_buffer);
-char	*return_line(char *static_buffer);
-char	*return_static(char *static_buffer);
-void	*ft_calloc(size_t nmemb, size_t size);
+int		ft_strlen(const char *s);
+char	*ft_strchr(const char *s, int c);
+char	*ft_strdup(const char *s);
+char	*ft_strjoin(char const *s1, char const *s2);
+char	*ft_substr(char const *s, unsigned int start, size_t len);
 
-//get_next_line_utils
-int		ft_strlen(char *s);
-char	*ft_strchr(char *s, int c);
-char	*ft_strdup(char *s);
-char	*ft_strjoin(char *s1, char *s2, int flag);
-char	*ft_substr(char *s, unsigned int start, size_t len, int flag);
+char	*get_next_line(int fd);
+char	*get_buffer(long int *bytes_read, int fd);
+char	*read_fd_loop(int fd, char *static_buff);
+char	*get_line(char *static_buff);
+char	*get_static(char *static_buff);
 
 #endif
